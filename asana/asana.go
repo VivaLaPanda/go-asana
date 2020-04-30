@@ -234,6 +234,11 @@ func (c *Client) ListWorkspaces(ctx context.Context) ([]Workspace, error) {
 	return *workspaces, err
 }
 
+func (c *Client) AddUserToWorkspace(ctx context.Context, wsGID int64, user User) (User, error) {
+	_, err := c.request(ctx, "POST", fmt.Sprintf("workspaces/%d/", wsGID), user, nil, nil, user)
+	return user, err
+}
+
 func (c *Client) ListUsers(ctx context.Context, opt *Filter) ([]User, error) {
 	users := new([]User)
 	err := c.Request(ctx, "users", opt, users)

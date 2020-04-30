@@ -9,6 +9,8 @@ import (
 	"net/url"
 	"reflect"
 	"testing"
+
+	oauth "golang.org/x/oauth2"
 )
 
 var (
@@ -16,6 +18,14 @@ var (
 	mux    *http.ServeMux
 	server *httptest.Server
 )
+
+type fixedToken struct {
+	AccessToken string
+}
+
+func (t fixedToken) Token() (*oauth.Token, error) {
+	return &oauth.Token{AccessToken: t.AccessToken}, nil
+}
 
 func setup() {
 	client = NewClient(nil)
